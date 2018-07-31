@@ -38,7 +38,7 @@
 		}*/
  	// Load Camera Perspective
 	var camera = new THREE.PerspectiveCamera( 25, window.innerWidth / window.innerHeight, 1, 20000 );
-	camera.position.set( 30, 25, 15 );
+	camera.position.set( -30, 35, 45 );
 	/*
 	labelRenderer = new THREE.CSS2DRenderer();
 	labelRenderer.setSize( window.innerWidth, window.innerHeight );
@@ -221,9 +221,15 @@ var sunDiv = document.createElement( 'div' );
 	requestAnimationFrame( animate );
 	renderer.render( scene, camera );
 	//labelRenderer.render( scene, camera );
-	if (mercury) mercury.position.set(Math.sin( elapsed/2 ) * 4, 1, Math.cos( elapsed/2 ) * 4);
-	if (venus) venus.position.set(Math.sin( elapsed/3) * 4, 1, Math.cos( elapsed/3 ) * 4);
-	if (earth) earth.position.set(Math.sin( elapsed/4 ) * 6, 2, Math.cos( elapsed/4 ) * 6);
+	if (mercury) mercury.position.set(Math.sin( elapsed/2 ) * 7, 1, Math.cos( elapsed/2 ) * 7);
+	if (venus) venus.position.set(Math.sin( elapsed/3) * 9, 1, Math.cos( elapsed/3 ) * 9);
+	if (earth) earth.position.set(Math.sin( elapsed/4 ) * 12, 2, Math.cos( elapsed/4 ) * 12);
+	if (mars) mars.position.set(Math.sin( elapsed/5 ) * 16, 2, Math.cos( elapsed/5 ) * 16);
+	if (jupiter) jupiter.position.set(Math.sin( elapsed/7 ) * 20, 2, Math.cos( elapsed/7 ) * 20);
+	if (saturn) saturn.position.set(Math.sin( elapsed/9 ) * 27, 2, Math.cos( elapsed/9 ) * 27);
+	if (neptune) neptune.position.set(Math.sin( elapsed/11 ) * 35, 2, Math.cos( elapsed/11 ) * 35);
+	
+	
 	stats.update();
 	
 	}

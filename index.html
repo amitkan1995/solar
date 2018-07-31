@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+ <html>
+    <head>		
+        <title>Solar System</title>
+        <style>
+		body { margin: 0; }
+		canvas { width: 100%; height: 100% }
+      </style>
+  </head>
+    <body>
+
+
+        <script src="js/three.min.js"></script>
+	<script src="js/OrbitControls.js"></script>
+	<script src="js/GLTFLoader.js"></script>
+	<script src="js/AnimationMixer.js"></script>
+	<script src="js/stats.min.js"></script>
+	
+<script>		
+
+
+	
+ 	// Load 3D Scene
+	var scene = new THREE.Scene(); 
+	scene2 = new THREE.Scene();
+	var Stats;
+
+		
+
+		/*function randomise() {
+			starfield.stop();
+			starfield.stars = Math.random()*1000 + 50;
+			starfield.minVelocity = Math.random()*30+5;
+			starfield.maxVelocity = Math.random()*50 + starfield.minVelocity;			
+			starfield.start();
+			console.log("Running Good");
+		}*/
+ 	// Load Camera Perspective
+	var camera = new THREE.PerspectiveCamera( 25, window.innerWidth / window.innerHeight, 1, 20000 );
+	camera.position.set( 30, 25, 15 );
+	/*
+	labelRenderer = new THREE.CSS2DRenderer();
+	labelRenderer.setSize( window.innerWidth, window.innerHeight );
+	labelRenderer.domElement.style.position = 'absolute';
+	labelRenderer.domElement.style.top = 0;
+	document.body.appendChild( labelRenderer.domElement );
+	*/
+	// Load a Renderer
+	var renderer = new THREE.WebGLRenderer();
+	renderer.setClearColor( 0x000000 );
+	renderer.setPixelRatio( window.devicePixelRatio );
+	renderer.setSize(window.innerWidth, window.innerHeight);
+	
+	document.body.appendChild(renderer.domElement);
+		
+ 	// Load the Orbitcontroller
+	var controls = new THREE.OrbitControls( camera, renderer.domElement ); 
+			
+ 	// Load Light
+	var ambientLight = new THREE.AmbientLight( 0xcccccc );
+	scene.add( ambientLight );
+			
+	var directionalLight = new THREE.DirectionalLight( 0xffffff );
+	directionalLight.position.set( 0, 1, 1 ).normalize();
+	scene.add( directionalLight );				
+
+	
+ 	// glTf 2.0 Loader
+	var loader = new THREE.GLTFLoader();
+	var sun,earth,saturn;				
+	loader.load( 'model/sun/sun.gltf', function ( gltf ) {           //   <<--------- Model Path
+	sun = gltf.scene;
+	const model = gltf.scene;			
+	gltf.scene.scale.set( 10, 10, 10 );			   
+	gltf.scene.position.x = 0;				    //Position (x = right+ left-) 
+    gltf.scene.position.y = 0;				    //Position (y = up+, down-)
+	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
+	gltf.animations;
+	scene.add( gltf.scene );
+	
+	});
+
+	loader.load( 'model/mercury/mercury.gltf', function ( gltf ) {           //   <<--------- Model Path
+	saturn = gltf.scene;
+	const model = gltf.scene;			
+	gltf.scene.scale.set( 1, 1, 1 );			   
+	gltf.scene.position.x = 2;				    //Position (x = right+ left-) 
+    gltf.scene.position.y = 2;				    //Position (y = up+, down-)
+	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
+	gltf.animations;
+	scene.add( gltf.scene);
+	
+	});
+
+	loader.load( 'model/venus/venus.gltf', function ( gltf ) {           //   <<--------- Model Path
+	saturn = gltf.scene;
+	const model = gltf.scene;			
+	gltf.scene.scale.set( 1, 1, 1 );			   
+	gltf.scene.position.x = 3;				    //Position (x = right+ left-) 
+    gltf.scene.position.y = 2;				    //Position (y = up+, down-)
+	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
+	gltf.animations;
+	scene.add( gltf.scene);
+	
+	});
+
+	loader.load( 'model/earth/earth.gltf', function ( gltf ) {           //   <<--------- Model Path
+	saturn = gltf.scene;
+	const model = gltf.scene;			
+	gltf.scene.scale.set( 1, 1, 1 );			   
+	gltf.scene.position.x = 4;				    //Position (x = right+ left-) 
+    gltf.scene.position.y = 2;				    //Position (y = up+, down-)
+	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
+	gltf.animations;
+	scene.add( gltf.scene);
+	
+	});
+
+	loader.load( 'model/mars/mars.gltf', function ( gltf ) {           //   <<--------- Model Path
+	saturn = gltf.scene;
+	const model = gltf.scene;			
+	gltf.scene.scale.set( 1, 1, 1 );			   
+	gltf.scene.position.x = 5;				    //Position (x = right+ left-) 
+    gltf.scene.position.y = 2;				    //Position (y = up+, down-)
+	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
+	gltf.animations;
+	scene.add( gltf.scene);
+	
+	});
+
+	loader.load( 'model/jupiter/jupiter.gltf', function ( gltf ) {           //   <<--------- Model Path
+	saturn = gltf.scene;
+	const model = gltf.scene;			
+	gltf.scene.scale.set( 4, 4, 4 );			   
+	gltf.scene.position.x = 7;				    //Position (x = right+ left-) 
+    gltf.scene.position.y = 2;				    //Position (y = up+, down-)
+	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
+	gltf.animations;
+	scene.add( gltf.scene);
+	
+	});
+
+	
+
+	loader.load( 'model/saturn/saturn.gltf', function ( gltf ) {           //   <<--------- Model Path
+	saturn = gltf.scene;
+	const model = gltf.scene;			
+	gltf.scene.scale.set( 2, 2, 2 );			   
+	gltf.scene.position.x = 9;				    //Position (x = right+ left-) 
+    gltf.scene.position.y = 2;				    //Position (y = up+, down-)
+	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
+	gltf.animations;
+	scene.add( gltf.scene);
+	
+	});
+
+	loader.load( 'model/neptune/neptune.gltf', function ( gltf ) {           //   <<--------- Model Path
+	saturn = gltf.scene;
+	const model = gltf.scene;			
+	gltf.scene.scale.set( 1, 1, 1 );			   
+	gltf.scene.position.x = 11;				    //Position (x = right+ left-) 
+    gltf.scene.position.y = 2;				    //Position (y = up+, down-)
+	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
+	gltf.animations;
+	scene.add( gltf.scene);
+	
+	});
+	
+	//
+
+
+
+	
+/*
+var sunDiv = document.createElement( 'div' );
+	sunDiv.className = 'label';
+	sunDiv.textContent = 'Sun';
+	sunDiv.style.marginTop = '-1em';
+	var sunLabel = new THREE.CSS2DObject( sunDiv );
+	sunLabel.position.set( 5, 0, 0 );
+	gltf.scene.add( sunLabel );
+	
+	var moonDiv = document.createElement( 'div' );
+	moonDiv.className = 'label';
+	moonDiv.textContent = 'Moon';
+	moonDiv.style.marginTop = '-1em';
+	var moonLabel = new THREE.CSS2DObject( moonDiv );
+	moonLabel.position.set( 0, 2, 0 );
+	moon.add( moonLabel );
+	*/
+
+	/*
+	// Adding Light to sun
+	var geometry = new THREE.SphereGeometry(6, 50, 50, 0, Math.PI * 2, 0, Math.PI * 2);
+	//var material = new THREE.MeshBasicMaterial();
+	var material	= new THREE.MeshBasicMaterial({
+		color	: new THREE.Color('gray')
+	})
+	*/
+	
+	//light1 = new THREE.PointLight( 0x00ffdf, 5, 1000,2 );
+	//light1.position.set(0,0,0);
+	//light1.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0x00ffdf } ) ) );
+	//scene.add( light1 );
+
+	// stats
+	stats = new Stats();
+	document.body.appendChild( stats.dom );
+
+	
+	
+
+	function animate() {
+	
+	requestAnimationFrame( animate );
+	renderer.render( scene, camera );
+	
+	//labelRenderer.render( scene, camera );
+	
+	
+	stats.update();
+	
+	}
+/*
+	function render() {
+		//gltf.scene.rotation.x += 0.0005;
+		//gltf.scene.rotation.y += 0.0005;
+	
+
+	}
+
+	render();
+*/
+animate();
+			
+</script>	
+</body>
+</html>

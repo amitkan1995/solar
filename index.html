@@ -26,28 +26,13 @@
 	var Stats;
 	var clock = new THREE.Clock();
 
-		
 
-		/*function randomise() {
-			starfield.stop();
-			starfield.stars = Math.random()*1000 + 50;
-			starfield.minVelocity = Math.random()*30+5;
-			starfield.maxVelocity = Math.random()*50 + starfield.minVelocity;			
-			starfield.start();
-			console.log("Running Good");
-		}*/
  	// Load Camera Perspective
 	var camera = new THREE.PerspectiveCamera( 25, window.innerWidth / window.innerHeight, 1, 20000 );
 	camera.position.set( -30, 35, 45 );
-	/*
-	labelRenderer = new THREE.CSS2DRenderer();
-	labelRenderer.setSize( window.innerWidth, window.innerHeight );
-	labelRenderer.domElement.style.position = 'absolute';
-	labelRenderer.domElement.style.top = 0;
-	document.body.appendChild( labelRenderer.domElement );
-	*/
+	
 	// Load a Renderer
-	var renderer = new THREE.WebGLRenderer();
+	var renderer = new THREE.WebGLRenderer({antialias: true});
 	renderer.setClearColor( 0x000000 );
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize(window.innerWidth, window.innerHeight);
@@ -72,101 +57,85 @@
 
 
 	loader.load( 'model/sun/sun.gltf', function ( gltf ) {           //   <<--------- Model Path
-	sun = gltf.scene;
-	const model1 = gltf.scene;			
+	sun = gltf.scene;			
 	gltf.scene.scale.set( 10, 10, 10 );			   
 	gltf.scene.position.x = 0;				    //Position (x = right+ left-) 
     gltf.scene.position.y = 0;				    //Position (y = up+, down-)
 	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
 	gltf.animations;
 	scene.add( gltf.scene );
-	
 	});
 
 	loader.load( 'model/mercury/mercury.gltf', function ( gltf ) {           //   <<--------- Model Path
-	mercury = gltf.scene;
-	const model2 = gltf.scene;			
+	mercury = gltf.scene;			
 	gltf.scene.scale.set( 1, 1, 1 );			   
 	gltf.scene.position.x = 3;				    //Position (x = right+ left-) 
     gltf.scene.position.y = 2;				    //Position (y = up+, down-)
 	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
 	gltf.animations;
 	scene.add( gltf.scene);
-	
 	});
 
 	loader.load( 'model/venus/venus.gltf', function ( gltf ) {           //   <<--------- Model Path
 	venus = gltf.scene;
-	const model3 = gltf.scene;			
 	gltf.scene.scale.set( 1, 1, 1 );			   
 	gltf.scene.position.x = 4;				    //Position (x = right+ left-) 
     gltf.scene.position.y = 2;				    //Position (y = up+, down-)
 	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
 	gltf.animations;
 	scene.add( gltf.scene);
-	
 	});
 
 	loader.load( 'model/earth/earth.gltf', function ( gltf ) {           //   <<--------- Model Path
-	earth = gltf.scene;
-	const model4 = gltf.scene;			
+	earth = gltf.scene;			
 	gltf.scene.scale.set( 1, 1, 1 );			   
 	gltf.scene.position.x = 5;				    //Position (x = right+ left-) 
     gltf.scene.position.y = 2;				    //Position (y = up+, down-)
 	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
 	gltf.animations;
 	scene.add( gltf.scene);
-	
 	});
 
 	loader.load( 'model/mars/mars.gltf', function ( gltf ) {           //   <<--------- Model Path
-	mars = gltf.scene;
-	const model5 = gltf.scene;			
+	mars = gltf.scene;			
 	gltf.scene.scale.set( 1, 1, 1 );			   
 	gltf.scene.position.x = 6;				    //Position (x = right+ left-) 
     gltf.scene.position.y = 2;				    //Position (y = up+, down-)
 	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
 	gltf.animations;
 	scene.add( gltf.scene);
-	
 	});
 
 	loader.load( 'model/jupiter/jupiter.gltf', function ( gltf ) {           //   <<--------- Model Path
-	jupiter = gltf.scene;
-	const model6 = gltf.scene;			
+	jupiter = gltf.scene;			
 	gltf.scene.scale.set( 4, 4, 4 );			   
 	gltf.scene.position.x = 9;				    //Position (x = right+ left-) 
     gltf.scene.position.y = 2;				    //Position (y = up+, down-)
 	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
 	gltf.animations;
 	scene.add( gltf.scene);
-	
 	});
 
 	
 
 	loader.load( 'model/saturn/saturn.gltf', function ( gltf ) {           //   <<--------- Model Path
-	saturn = gltf.scene;
-	const model7 = gltf.scene;			
+	saturn = gltf.scene;			
 	gltf.scene.scale.set( 2, 2, 2 );			   
 	gltf.scene.position.x = 11;				    //Position (x = right+ left-) 
     gltf.scene.position.y = 2;				    //Position (y = up+, down-)
 	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
 	gltf.animations;
 	scene.add( gltf.scene);
-	
 	});
 
 	loader.load( 'model/neptune/neptune.gltf', function ( gltf ) {           //   <<--------- Model Path
-	neptune = gltf.scene;
-	const model8 = gltf.scene;			
+	neptune = gltf.scene;			
 	gltf.scene.scale.set( 1, 1, 1 );			   
 	gltf.scene.position.x = 13;				    //Position (x = right+ left-) 
     gltf.scene.position.y = 2;				    //Position (y = up+, down-)
 	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
 	gltf.animations;
 	scene.add( gltf.scene);
-	
 	});
 	
 	//
@@ -206,7 +175,7 @@ var sunDiv = document.createElement( 'div' );
 	//light1.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0x00ffdf } ) ) );
 	//scene.add( light1 );
 
-	// stats
+	// FPS stats
 	stats = new Stats();
 	document.body.appendChild( stats.dom );
 
@@ -217,24 +186,24 @@ var sunDiv = document.createElement( 'div' );
 
 	//sun.position.set( Math.sin( elapsed ) * 5, 0, Math.cos( elapsed ) * 5 );
 	//if (mercury) mercury.position.set( Math.sin( elapsed ) * 5, 0, Math.cos( elapsed ) * 5 );
-	var elapsed = clock.getElapsedTime();
+	
 	requestAnimationFrame( animate );
 	renderer.render( scene, camera );
-	//labelRenderer.render( scene, camera );
-	if (mercury) mercury.position.set(Math.sin( elapsed/2 ) * 7, 1, Math.cos( elapsed/2 ) * 7);
-	if (venus) venus.position.set(Math.sin( elapsed/3) * 9, 1, Math.cos( elapsed/3 ) * 9);
-	if (earth) earth.position.set(Math.sin( elapsed/4 ) * 12, 2, Math.cos( elapsed/4 ) * 12);
-	if (mars) mars.position.set(Math.sin( elapsed/5 ) * 16, 2, Math.cos( elapsed/5 ) * 16);
-	if (jupiter) jupiter.position.set(Math.sin( elapsed/7 ) * 20, 2, Math.cos( elapsed/7 ) * 20);
-	if (saturn) saturn.position.set(Math.sin( elapsed/9 ) * 27, 2, Math.cos( elapsed/9 ) * 27);
-	if (neptune) neptune.position.set(Math.sin( elapsed/11 ) * 35, 2, Math.cos( elapsed/11 ) * 35);
+	rotatePlanet();
 	
-	
+
 	stats.update();
 	
 	}
-	function rotate(object){
-		
+	function rotatePlanet(){
+		var elapsed = clock.getElapsedTime();
+		if (mercury) mercury.position.set(Math.sin( elapsed/2 ) * 7, 1, Math.cos( elapsed/2 ) * 7);
+		if (venus) venus.position.set(Math.sin( elapsed/3) * 9, 1, Math.cos( elapsed/3 ) * 9);
+		if (earth) earth.position.set(Math.sin( elapsed/4 ) * 12, 2, Math.cos( elapsed/4 ) * 12);
+		if (mars) mars.position.set(Math.sin( elapsed/5 ) * 16, 2, Math.cos( elapsed/5 ) * 16);
+		if (jupiter) jupiter.position.set(Math.sin( elapsed/7 ) * 20, 2, Math.cos( elapsed/7 ) * 20);
+		if (saturn) saturn.position.set(Math.sin( elapsed/9 ) * 27, 2, Math.cos( elapsed/9 ) * 27);
+		if (neptune) neptune.position.set(Math.sin( elapsed/11 ) * 35, 2, Math.cos( elapsed/11 ) * 35);
 	}
 /*
 	function render() {
@@ -246,7 +215,7 @@ var sunDiv = document.createElement( 'div' );
 
 	render();
 */
-animate();
+	animate();
 			
 </script>	
 </body>

@@ -1,28 +1,51 @@
 <!DOCTYPE html>
  <html>
     <head>		
-        <title>Solar System</title>
+		<title>Solar System</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
         <style>
 		body { margin: 0; }
 		canvas { width: 100%; height: 100% }
-      </style>
+
+		#info {
+				position: absolute;
+				top: 0px;
+				width: 100%;
+				color: #ffffff;
+				padding: 5px;
+				font-family:Monospace;
+				font-size:13px;
+				text-align:right;
+			}
+	  </style>
+	      <script src="js/three.min.js"></script>
+		  <script src="js/OrbitControls.js"></script>
+		  <script src="js/GLTFLoader.js"></script>
+		  <script src="js/AnimationMixer.js"></script>
+		  <script src="js/stats.min.js"></script>
+		  <script src="js/CSS2DRenderer.js"></script>
+		  <script src="js/libs/dat.gui.min.js"></script>
+		  
   </head>
     <body>
-    <script src="js/three.min.js"></script>
-	<script src="js/OrbitControls.js"></script>
-	<script src="js/GLTFLoader.js"></script>
-	<script src="js/AnimationMixer.js"></script>
-	<script src="js/stats.min.js"></script>
-	<script src="js/CSS2DRenderer.js"></script>
-<script>		
 
-
+	<div id="info">
+		
+	</div>
+	<script>		
 	
  	// Load 3D Scene
 	var scene = new THREE.Scene(); 
 	scene2 = new THREE.Scene();
 	var Stats;
 	var clock = new THREE.Clock();
+
+	var gui, controlConfig= {
+
+	freezState: false,
+	revolveSpeed: 24
+	};
 
 
  	// Load Camera Perspective
@@ -41,7 +64,7 @@
 	var controls = new THREE.OrbitControls( camera, renderer.domElement ); 
 			
  	// Load Light
-	var ambientLight = new THREE.AmbientLight( 0xcccccc );
+	var ambientLight = new THREE.AmbientLight( 0xffffff );
 	scene.add( ambientLight );
 			
 	var directionalLight = new THREE.DirectionalLight( 0xffffff );
@@ -140,44 +163,45 @@
 
 
 
-	
-/*
-var sunDiv = document.createElement( 'div' );
-	sunDiv.className = 'label';
-	sunDiv.textContent = 'Sun';
-	sunDiv.style.marginTop = '-1em';
-	var sunLabel = new THREE.CSS2DObject( sunDiv );
-	sunLabel.position.set( 5, 0, 0 );
-	gltf.scene.add( sunLabel );
-	
-	var moonDiv = document.createElement( 'div' );
-	moonDiv.className = 'label';
-	moonDiv.textContent = 'Moon';
-	moonDiv.style.marginTop = '-1em';
-	var moonLabel = new THREE.CSS2DObject( moonDiv );
-	moonLabel.position.set( 0, 2, 0 );
-	moon.add( moonLabel );
-	*/
-
-	/*
-	// Adding Light to sun
-	var geometry = new THREE.SphereGeometry(6, 50, 50, 0, Math.PI * 2, 0, Math.PI * 2);
-	//var material = new THREE.MeshBasicMaterial();
-	var material	= new THREE.MeshBasicMaterial({
-		color	: new THREE.Color('gray')
-	})
-	*/
-	
-	//light1 = new THREE.PointLight( 0x00ffdf, 5, 1000,2 );
-	//light1.position.set(0,0,0);
-	//light1.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0x00ffdf } ) ) );
-	//scene.add( light1 );
 
 	// FPS stats
 	stats = new Stats();
 	document.body.appendChild( stats.dom );
 
+	window.addEventListener( 'resize', onWindowResize, false );
+
+
+	gui = new dat.GUI( { width: 350 } );
+
+	// SHADOW
+
+	var controlGUI = gui.addFolder( "Controls" );
+
+	controlGUI.add( controlConfig, 'freezState' ).onChange( function() {
+
+		//shadowCameraHelper.visible = shadowConfig.shadowCameraVisible;
+
+				});
+
+	controlGUI.add( controlConfig, 'revolveSpeed', 1, 24 ).onChange( function() {
+
+		
+		//sunLight.shadow.camera.near = shadowConfig.shadowCameraNear;
+		//sunLight.shadow.camera.updateProjectionMatrix();
+		//shadowCameraHelper.update();
+
+	});
 	
+	function onWindowResize( event ) {
+
+	camera.aspect = window.innerWidth / window.innerHeight;
+	camera.updateProjectionMatrix();
+
+	renderer.setSize( window.innerWidth, window.innerHeight );
+
+	controls.handleResize();
+
+	}
 	
 
 	function animate() {
@@ -187,21 +211,49 @@ var sunDiv = document.createElement( 'div' );
 	
 	requestAnimationFrame( animate );
 	renderer.render( scene, camera );
-	rotatePlanet();
-	
-
+	revolvePlanet();
 	stats.update();
 	
 	}
-	function rotatePlanet(){
+
+
+
+	function revolvePlanet(){
 		var elapsed = clock.getElapsedTime();
-		if (mercury) mercury.position.set(Math.sin( elapsed/2 ) * 7, 1, Math.cos( elapsed/2 ) * 7);
-		if (venus) venus.position.set(Math.sin( elapsed/3) * 9, 1, Math.cos( elapsed/3 ) * 9);
-		if (earth) earth.position.set(Math.sin( elapsed/4 ) * 12, 2, Math.cos( elapsed/4 ) * 12);
-		if (mars) mars.position.set(Math.sin( elapsed/5 ) * 16, 2, Math.cos( elapsed/5 ) * 16);
-		if (jupiter) jupiter.position.set(Math.sin( elapsed/7 ) * 20, 2, Math.cos( elapsed/7 ) * 20);
-		if (saturn) saturn.position.set(Math.sin( elapsed/9 ) * 27, 2, Math.cos( elapsed/9 ) * 27);
-		if (neptune) neptune.position.set(Math.sin( elapsed/11 ) * 35, 2, Math.cos( elapsed/11 ) * 35);
+		if (mercury)
+		{ 	mercury.rotation.y+=0.05;
+			mercury.position.set(Math.sin( elapsed/2 ) * 7, 1, Math.cos( elapsed/2 ) * 7);
+		}
+		if (venus) 
+		{	
+			venus.rotation.y+=0.04;
+			venus.position.set(Math.sin( elapsed/3) * 9, 1, Math.cos( elapsed/3 ) * 9);
+		}
+		if (earth)
+		{ 	
+			earth.rotation.y+=0.009;
+			earth.position.set(Math.sin( elapsed/4 ) * 12, 2, Math.cos( elapsed/4 ) * 12);
+		}
+		if (mars) 
+		{	
+			mars.rotation.y+=0.008;
+			mars.position.set(Math.sin( elapsed/5 ) * 16, 2, Math.cos( elapsed/5 ) * 16);
+		}
+		if (jupiter) 
+		{	
+			jupiter.rotation.y+=0.004;
+			jupiter.position.set(Math.sin( elapsed/7 ) * 20, 2, Math.cos( elapsed/7 ) * 20);
+		}
+		if (saturn) 
+		{	
+			saturn.rotation.y+=0.003;
+			saturn.position.set(Math.sin( elapsed/9 ) * 27, 2, Math.cos( elapsed/9 ) * 27);
+		}
+		if (neptune) 
+		{	
+			neptune.rotation.y+=0.002;
+			neptune.position.set(Math.sin( elapsed/11 ) * 35, 2, Math.cos( elapsed/11 ) * 35);
+		}
 	}
 /*
 	function render() {

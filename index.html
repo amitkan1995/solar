@@ -7,7 +7,6 @@
         <style>
 		body { margin: 0; }
 		canvas { width: 100%; height: 100% }
-
 		#info {
 				position: absolute;
 				top: 0px;
@@ -31,7 +30,6 @@
     <body>
 
 	<div id="info">
-		
 	</div>
 	<script>		
 	
@@ -42,7 +40,6 @@
 	var clock = new THREE.Clock();
 
 	var gui, controlConfig= {
-
 	freezState: false,
 	revolveSpeed: 24
 	};
@@ -69,21 +66,26 @@
 			
 	var directionalLight = new THREE.DirectionalLight( 0xffffff );
 	directionalLight.position.set( 0, 1, 1 ).normalize();
-	scene.add( directionalLight );				
+	scene.add( directionalLight );	
+
+				
 
 	
  	// glTf 2.0 Loader
 	var loader = new THREE.GLTFLoader();
-	var sun,mercury,venus,earth,mars,jupiter,saturn,neptune;			
+	// Planets variables;
+	var sun,mercury,venus,earth,mars,jupiter,saturn,neptune;	
+
+	var morbit;		
 
 
 	loader.load( 'model/sun/sun.gltf', function ( gltf ) {           //   <<--------- Model Path
 	sun = gltf.scene;			
-	gltf.scene.scale.set( 10, 10, 10 );			   
+	gltf.scene.scale.set( 12, 12, 12 );			   
 	gltf.scene.position.x = 0;				    //Position (x = right+ left-) 
-    gltf.scene.position.y = 0;				    //Position (y = up+, down-)
+    gltf.scene.position.y = -3;				    //Position (y = up+, down-)
 	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
-	gltf.animations;
+	//gltf.animations;
 	scene.add( gltf.scene );
 	});
 
@@ -93,8 +95,18 @@
 	gltf.scene.position.x = 3;				    //Position (x = right+ left-) 
     gltf.scene.position.y = 2;				    //Position (y = up+, down-)
 	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
-	gltf.animations;
+	//gltf.animations;
 	scene.add( gltf.scene);
+	var shape = new THREE.Shape();
+    shape.moveTo(20, 0);
+    shape.absellipse(0, 0, 20, 30, 0, 2 * Math.PI, false);
+    var spacedPoints = shape.createSpacedPointsGeometry(128);
+	print(spacedPoints);
+    spacedPoints.rotateX(THREE.Math.degToRad(-100));
+    morbit = new THREE.Line(spacedPoints, new THREE.LineBasicMaterial({
+      color: "white"
+    	}));
+    scene.add(morbit);
 	});
 
 	loader.load( 'model/venus/venus.gltf', function ( gltf ) {           //   <<--------- Model Path
@@ -105,6 +117,16 @@
 	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
 	gltf.animations;
 	scene.add( gltf.scene);
+	//orbit
+    var shape = new THREE.Shape();
+    shape.moveTo(10, 0);
+    shape.absellipse(0, 0, 30, 40, 0, Math.sin( elapsed/2 ) * 7, false);
+    var spacedPoints = shape.createSpacedPointsGeometry(128);
+    spacedPoints.rotateX(THREE.Math.degToRad(-90));
+    var orbit = new THREE.Line(spacedPoints, new THREE.LineBasicMaterial({
+      color: "white"
+    	}));
+    scene.add(orbit);
 	});
 
 	loader.load( 'model/earth/earth.gltf', function ( gltf ) {           //   <<--------- Model Path
@@ -113,7 +135,7 @@
 	gltf.scene.position.x = 5;				    //Position (x = right+ left-) 
     gltf.scene.position.y = 2;				    //Position (y = up+, down-)
 	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
-	gltf.animations;
+	//gltf.animations;
 	scene.add( gltf.scene);
 	});
 
@@ -123,7 +145,7 @@
 	gltf.scene.position.x = 6;				    //Position (x = right+ left-) 
     gltf.scene.position.y = 2;				    //Position (y = up+, down-)
 	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
-	gltf.animations;
+	//gltf.animations;
 	scene.add( gltf.scene);
 	});
 
@@ -133,7 +155,7 @@
 	gltf.scene.position.x = 9;				    //Position (x = right+ left-) 
     gltf.scene.position.y = 2;				    //Position (y = up+, down-)
 	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
-	gltf.animations;
+	//gltf.animations;
 	scene.add( gltf.scene);
 	});
 
@@ -145,7 +167,7 @@
 	gltf.scene.position.x = 11;				    //Position (x = right+ left-) 
     gltf.scene.position.y = 2;				    //Position (y = up+, down-)
 	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
-	gltf.animations;
+	//gltf.animations;
 	scene.add( gltf.scene);
 	});
 
@@ -167,53 +189,48 @@
 	// FPS stats
 	stats = new Stats();
 	document.body.appendChild( stats.dom );
-
 	window.addEventListener( 'resize', onWindowResize, false );
 
 
 	gui = new dat.GUI( { width: 350 } );
 
-	// SHADOW
+
+	// Controls
 
 	var controlGUI = gui.addFolder( "Controls" );
 
-	controlGUI.add( controlConfig, 'freezState' ).onChange( function() {
+	controlGUI.add( controlConfig, 'freezState' ).onChange( function() 
+	{
 
 		//shadowCameraHelper.visible = shadowConfig.shadowCameraVisible;
 
-				});
+	});
 
-	controlGUI.add( controlConfig, 'revolveSpeed', 1, 24 ).onChange( function() {
-
-		
+	controlGUI.add( controlConfig, 'revolveSpeed', 1, 24 ).onChange( function() 
+	{
 		//sunLight.shadow.camera.near = shadowConfig.shadowCameraNear;
 		//sunLight.shadow.camera.updateProjectionMatrix();
 		//shadowCameraHelper.update();
 
 	});
 	
-	function onWindowResize( event ) {
 
+
+	function onWindowResize( event ) 
+	{
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
-
 	renderer.setSize( window.innerWidth, window.innerHeight );
-
 	controls.handleResize();
-
 	}
 	
 
-	function animate() {
-
-	//sun.position.set( Math.sin( elapsed ) * 5, 0, Math.cos( elapsed ) * 5 );
-	//if (mercury) mercury.position.set( Math.sin( elapsed ) * 5, 0, Math.cos( elapsed ) * 5 );
-	
+	function animate() 
+	{
 	requestAnimationFrame( animate );
 	renderer.render( scene, camera );
 	revolvePlanet();
 	stats.update();
-	
 	}
 
 
@@ -222,6 +239,7 @@
 		var elapsed = clock.getElapsedTime();
 		if (mercury)
 		{ 	mercury.rotation.y+=0.05;
+			//mercury.position.set(Math.PI,5,2 * Math.PI);
 			mercury.position.set(Math.sin( elapsed/2 ) * 7, 1, Math.cos( elapsed/2 ) * 7);
 		}
 		if (venus) 
@@ -255,16 +273,6 @@
 			neptune.position.set(Math.sin( elapsed/11 ) * 35, 2, Math.cos( elapsed/11 ) * 35);
 		}
 	}
-/*
-	function render() {
-		//gltf.scene.rotation.x += 0.0005;
-		//gltf.scene.rotation.y += 0.0005;
-	
-
-	}
-
-	render();
-*/
 	animate();
 			
 </script>	

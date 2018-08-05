@@ -37,8 +37,9 @@
 	var scene = new THREE.Scene(); 
 	scene2 = new THREE.Scene();
 	var Stats;
+	var innerw,height;
 	var clock = new THREE.Clock();
-
+	var stars=[];
 	var gui, controlConfig= {
 	freezState: false,
 	revolveSpeed: 24
@@ -47,14 +48,16 @@
 
  	// Load Camera Perspective
 	var camera = new THREE.PerspectiveCamera( 25, window.innerWidth / window.innerHeight, 1, 20000 );
-	camera.position.set( -30, 35, 45 );
+	camera.position.set( 0, 0, 100 );
 	
 	// Load a Renderer
 	var renderer = new THREE.WebGLRenderer({antialias: true});
 	renderer.setClearColor( 0x000000 );
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize(window.innerWidth, window.innerHeight);
-	
+	innerw=window.innerWidth;
+	height=window.innerHeight;
+
 	document.body.appendChild(renderer.domElement);
 		
  	// Load the Orbitcontroller
@@ -68,6 +71,52 @@
 	directionalLight.position.set( 0, 1, 1 ).normalize();
 	scene.add( directionalLight );	
 
+	function addSphere(){
+
+		// The loop will move from z position of -1000 to z position 1000, adding a random particle at each position. 
+		for ( var z= -1000; z < 1000; z+=20 ) {
+
+		// Make a sphere (exactly the same as before). 
+		var geometry   = new THREE.SphereGeometry(0.5, 32, 32)
+		var material = new THREE.MeshBasicMaterial( {color: 0xffffff} );
+		var sphere = new THREE.Mesh(geometry, material)
+
+		// This time we give the sphere random x and y positions between -500 and 500
+		//sphere.position.x = Math.random() * 1500 - 1400;
+		//sphere.position.y = Math.random() * 2000 - 1000;
+		//sphere.position.z = Math.random() * 5000 - 1000;
+		sphere.position.x= Math.random()*innerw-Math.random()*innerw;
+		sphere.position.y=Math.random()*height-Math.random()*height;
+		
+		// Then set the z position to where it is in the loop (distance of camera)
+		sphere.position.z = z;	
+		// scale it up a bit
+		sphere.scale.x = sphere.scale.y = 1;
+
+		//add the sphere to the scene
+		scene.add( sphere );
+
+			//finally push it to the stars array 
+			stars.push(sphere); 
+		}
+	}
+
+	function animateStars() { 
+				
+				// loop through each star
+				for(var i=0; i<stars.length; i++) {
+					
+					star = stars[i]; 
+						
+					// and move it forward dependent on the mouseY position. 
+					star.position.z +=  i/10;
+						
+					// if the particle is too close move it to the back
+					if(star.position.z>2000) star.position.z-=3000; 
+					
+				}
+			
+	}
 				
 
 	
@@ -181,8 +230,6 @@
 	scene.add( gltf.scene);
 	});
 	
-	//
-
 
 
 
@@ -221,7 +268,7 @@
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
 	renderer.setSize( window.innerWidth, window.innerHeight );
-	controls.handleResize();
+	//controls.handleResize();
 	}
 	
 
@@ -229,6 +276,7 @@
 	{
 	requestAnimationFrame( animate );
 	renderer.render( scene, camera );
+	animateStars();
 	revolvePlanet();
 	stats.update();
 	}
@@ -273,6 +321,7 @@
 			neptune.position.set(Math.sin( elapsed/11 ) * 35, 2, Math.cos( elapsed/11 ) * 35);
 		}
 	}
+	addSphere();
 	animate();
 			
 </script>	

@@ -304,7 +304,7 @@
 	var controlGUI = guic.addFolder( "Controls" );
 	//controlGUI.add(controlConfig.freezState,'Freeze State').listen();
 
-	/*controlGUI.add( controlConfig, 'freezState' ).onChange( function() 
+	controlGUI.add( controlConfig, 'freezState' ).onChange( function() 
 	{
 		if(!controlConfig.freezState)
 		{
@@ -313,7 +313,7 @@
 		//shadowCameraHelper.visible = shadowConfig.shadowCameraVisible;
 
 	});
-	*/
+	
 	controlGUI.add( controlConfig, 'revolveSpeed', 1, 24 ).onChange( function() 
 	{
 		//sunLight.shadow.camera.near = shadowConfig.shadowCameraNear;

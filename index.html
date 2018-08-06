@@ -37,9 +37,8 @@
 	scene2 = new THREE.Scene();
 	var Stats;
 	var innerw,height;
-	var clock = new THREE.Clock();
 	var stars=[];
-	var gui, controlConfig= {
+	var guic, controlConfig= {
 	freezState: false,
 	revolveSpeed: 24
 	};
@@ -229,51 +228,40 @@
 	loader.load( 'model/mercury/mercury.gltf', function ( gltf ) {           //   <<--------- Model Path
 	mercury = gltf.scene;			
 	gltf.scene.scale.set( 2, 2, 2 );			   
-	gltf.scene.position.x = 3;				    //Position (x = right+ left-) 
-    gltf.scene.position.y = 2;				    //Position (y = up+, down-)
-	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
-	//gltf.animations;
+	var pt = mercpath.getPoint( mt );
+	gltf.scene.position.set(pt.x,pt.y,pt.z);
 	scene.add( gltf.scene);
-	
 	});
 
 	loader.load( 'model/venus/venus.gltf', function ( gltf ) {           //   <<--------- Model Path
 	venus = gltf.scene;
 	gltf.scene.scale.set( 2, 2, 2 );			   
-	gltf.scene.position.x = 4;				    //Position (x = right+ left-) 
-    gltf.scene.position.y = 2;				    //Position (y = up+, down-)
-	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
-	gltf.animations;
+	var pt = venpath.getPoint( vet );
+	gltf.scene.position.set(pt.x,pt.y,pt.z);
 	scene.add( gltf.scene);
 	});
 
 	loader.load( 'model/earth/earth.gltf', function ( gltf ) {           //   <<--------- Model Path
 	earth = gltf.scene;			
 	gltf.scene.scale.set( 2, 2, 2 );			   
-	gltf.scene.position.x = 5;				    //Position (x = right+ left-) 
-    gltf.scene.position.y = 2;				    //Position (y = up+, down-)
-	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
-	//gltf.animations;
+	var pt = earthpath.getPoint( eat );
+	gltf.scene.position.set(pt.x,pt.y,pt.z);
 	scene.add( gltf.scene);
 	});
 
 	loader.load( 'model/mars/mars.gltf', function ( gltf ) {           //   <<--------- Model Path
 	mars = gltf.scene;			
 	gltf.scene.scale.set( 2, 2, 2 );			   
-	gltf.scene.position.x = 6;				    //Position (x = right+ left-) 
-    gltf.scene.position.y = 2;				    //Position (y = up+, down-)
-	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
-	//gltf.animations;
+	var pt = marspath.getPoint( mat );
+	gltf.scene.position.set(pt.x,pt.y,pt.z);
 	scene.add( gltf.scene);
 	});
 
 	loader.load( 'model/jupiter/jupiter.gltf', function ( gltf ) {           //   <<--------- Model Path
 	jupiter = gltf.scene;			
 	gltf.scene.scale.set( 7, 7, 7 );			   
-	gltf.scene.position.x = 9;				    //Position (x = right+ left-) 
-    gltf.scene.position.y = 2;				    //Position (y = up+, down-)
-	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
-	//gltf.animations;
+	var pt = juppath.getPoint( jupt );
+	gltf.scene.position.set(pt.x,pt.y,pt.z);
 	scene.add( gltf.scene);
 	});
 
@@ -281,34 +269,26 @@
 	loader.load( 'model/saturn/saturn.gltf', function ( gltf ) {           //   <<--------- Model Path
 	saturn = gltf.scene;			
 	gltf.scene.scale.set( 6, 6, 6 );			   
-	gltf.scene.position.x = 11;				    //Position (x = right+ left-) 
-    gltf.scene.position.y = 2;				    //Position (y = up+, down-)
-	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
-	//gltf.animations;
+	var pt = satpath.getPoint( satt );
+	gltf.scene.position.set(pt.x,pt.y,pt.z);
 	scene.add( gltf.scene);
 	});
 
 	loader.load( 'model/uranus/uranus.gltf', function ( gltf ) {           //   <<--------- Model Path
 	uranus = gltf.scene;			
 	gltf.scene.scale.set( 3, 3, 3 );			   
-	gltf.scene.position.x = 13;				    //Position (x = right+ left-) 
-    gltf.scene.position.y = 2;				    //Position (y = up+, down-)
-	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
-	//gltf.animations;
+	var pt = urapath.getPoint( urat );
+	gltf.scene.position.set(pt.x,pt.y,pt.z);
 	scene.add( gltf.scene);
 	});
 
 	loader.load( 'model/neptune/neptune.gltf', function ( gltf ) {           //   <<--------- Model Path
 	neptune = gltf.scene;			
 	gltf.scene.scale.set( 3, 3, 3 );			   
-	gltf.scene.position.x = 15;				    //Position (x = right+ left-) 
-    gltf.scene.position.y = 2;				    //Position (y = up+, down-)
-	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
-	gltf.animations;
+	var pt = neppath.getPoint( nept );
+	gltf.scene.position.set(pt.x,pt.y,pt.z);
 	scene.add( gltf.scene);
 	});
-	
-
 
 
 	// FPS stats
@@ -317,20 +297,23 @@
 	window.addEventListener( 'resize', onWindowResize, false );
 
 
-	gui = new dat.GUI( { width: 350 } );
+	guic = new dat.GUI( { width: 350 } );
 
 
 	// Controls
+	var controlGUI = guic.addFolder( "Controls" );
+	//controlGUI.add(controlConfig.freezState,'Freeze State').listen();
 
-	var controlGUI = gui.addFolder( "Controls" );
-
-	controlGUI.add( controlConfig, 'freezState' ).onChange( function() 
+	/*controlGUI.add( controlConfig, 'freezState' ).onChange( function() 
 	{
-
+		if(!controlConfig.freezState)
+		{
+			
+		}
 		//shadowCameraHelper.visible = shadowConfig.shadowCameraVisible;
 
 	});
-
+	*/
 	controlGUI.add( controlConfig, 'revolveSpeed', 1, 24 ).onChange( function() 
 	{
 		//sunLight.shadow.camera.near = shadowConfig.shadowCameraNear;
@@ -352,15 +335,16 @@
 
 	function animate() 
 	{
+	
 	requestAnimationFrame( animate );
 	renderer.render( scene, camera );
+	//if (!guic.freezState) return;
 	animateStars();
 	revolvePlanet();
 	stats.update();
 	}
 
 	function revolvePlanet(){
-		var elapsed = clock.getElapsedTime();
 		if (mercury)
 		{ 	mercury.rotation.y+=0.05;
 			var pt = mercpath.getPoint( mt );
@@ -371,8 +355,6 @@
 			// calcluate the angle between the up vector and the tangent
 			var radians = Math.acos( up.dot( tangent ) );
 			mt = (mt >= 1) ? 0 : mt += 0.005;
-			//mercury.position.set(Math.PI,5,2 * Math.PI);
-			//mercury.position.set(Math.sin( elapsed/2 ) * 7, 1, Math.cos( elapsed/2 ) * 7);
 		}
 		if (venus) 
 		{	
@@ -384,7 +366,6 @@
 			axis.crossVectors( up, tangent ).normalize();
 			// calcluate the angle between the up vector and the tangent
 			var radians = Math.acos( up.dot( tangent ) );
-			
 			vet = (vet >= 1) ? 0 : vet += 0.001;
 		}
 		if (earth)
@@ -393,7 +374,6 @@
 			var tangent = earthpath.getTangent( eat ).normalize();
 			earth.position.set(pt.x,pt.y,pt.z);
 			// calculate the axis to rotate around
-			//var axis;
 			axis.crossVectors( up, tangent ).normalize();
 			// calcluate the angle between the up vector and the tangent
 			var radians = Math.acos( up.dot( tangent ) );	
@@ -405,7 +385,6 @@
 			var tangent = marspath.getTangent( mat ).normalize();
 			mars.position.set(pt.x,pt.y,pt.z);
 			// calculate the axis to rotate around
-			//var axis;
 			axis.crossVectors( up, tangent ).normalize();
 			// calcluate the angle between the up vector and the tangent
 			var radians = Math.acos( up.dot( tangent ) );

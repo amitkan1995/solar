@@ -346,7 +346,7 @@
 
 	function revolvePlanet(){
 		if (mercury)
-		{ 	mercury.rotation.y+=0.05;
+		{ 	//mercury.rotation.y+=0.05;
 			var pt = mercpath.getPoint( mt );
 			var tangent = mercpath.getTangent( mt ).normalize();
 			mercury.position.set(pt.x,pt.y,pt.z);
@@ -358,18 +358,18 @@
 		}
 		if (venus) 
 		{	
-			venus.rotation.y+=0.04;
+			//venus.rotation.y+=0.04;
 			var pt = venpath.getPoint( vet );
 			var tangent = venpath.getTangent( vet ).normalize();
 			venus.position.set(pt.x,pt.y,pt.z);
 			// calculate the axis to rotate around
-			axis.crossVectors( up, tangent ).normalize();
+			//axis.crossVectors( up, tangent ).normalize();
 			// calcluate the angle between the up vector and the tangent
 			var radians = Math.acos( up.dot( tangent ) );
 			vet = (vet >= 1) ? 0 : vet += 0.001;
 		}
 		if (earth)
-		{ 	earth.rotation.y+=0.04;
+		{ 	earth.rotation.y+=0.02;
 			var pt = earthpath.getPoint( eat );
 			var tangent = earthpath.getTangent( eat ).normalize();
 			earth.position.set(pt.x,pt.y,pt.z);
@@ -380,12 +380,12 @@
 			eat = (eat >= 1) ? 0 : eat += 0.0003;
 		}
 		if (mars) 
-		{	mars.rotation.y+=0.04;
+		{	//mars.rotation.z+=0.02;
 			var pt = marspath.getPoint( mat );
-			var tangent = marspath.getTangent( mat ).normalize();
+			var tangent = marspath.getTangent( mat );
 			mars.position.set(pt.x,pt.y,pt.z);
 			// calculate the axis to rotate around
-			axis.crossVectors( up, tangent ).normalize();
+			//axis.crossVectors( up, tangent ).normalize();
 			// calcluate the angle between the up vector and the tangent
 			var radians = Math.acos( up.dot( tangent ) );
 			mat = (mat >= 1) ? 0 : mat += 0.0001;

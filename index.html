@@ -332,12 +332,13 @@
 
 	function animate() 
 	{
-	
 	requestAnimationFrame( animate );
 	renderer.render( scene, camera );
 	//if (!guic.freezState) return;
 	animateStars();
-	revolvePlanet();
+	// TO freeze Planet State
+	if(!controlConfig.freezState)
+		revolvePlanet();
 	stats.update();
 	}
 

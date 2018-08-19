@@ -65,7 +65,7 @@
 	var axis = new THREE.Vector3( );
 
 	// Planet Orbit Variable Declaration
-	var mercpath,venpath,earthpath,marspath,juppath,satpath,urapath,neppath;
+	var mercpath,venpath,earthpath,moonpath,marspath,juppath,satpath,urapath,neppath;
 
 	// the getPoint starting variable - !important - You get me ;)
 	var mt=vet=eat=mat=jupt=satt=urat=nept = 0;
@@ -189,7 +189,7 @@
 
 	// Moon
 	moonpath = new Ellipse( 5, 3 );
-    var moongeometry = new THREE.TubeBufferGeometry( earthpath, pathSegments, 0, radiusSegments, closed );
+    var moongeometry = new THREE.TubeBufferGeometry( moonpath, pathSegments, 0.0001, radiusSegments, closed );
 	mesh = new THREE.Mesh( moongeometry, material );
 	scene.add( mesh );
 	
@@ -227,9 +227,9 @@
  	// glTf 2.0 Loader
 	var loader = new THREE.GLTFLoader();
 	// Planets variables;
-	var sun,mercury,venus,earth,mars,jupiter,saturn,uranus,neptune;	
+	var sun,mercury,venus,earth,moon,mars,jupiter,saturn,uranus,neptune;	
 
-	var morbit;		
+	var moonorbit;		
 
 
 	loader.load( 'model/sun/sun.gltf', function ( gltf ) {           //   <<--------- Model Path
@@ -262,7 +262,16 @@
 	earth = gltf.scene;			
 	gltf.scene.scale.set( 2, 2, 2 );			   
 	var pt = earthpath.getPoint( eat );
+	moonorbit = earthpath.getPoint( eat );
 	gltf.scene.position.set(pt.x,pt.y,pt.z);
+	scene.add( gltf.scene);
+	});
+
+	loader.load( 'model/moon/moon.gltf', function ( gltf ) {           //   <<--------- Model Path
+	moon = gltf.scene;			
+	gltf.scene.scale.set( 1, 1, 1 );			   
+	//var pt = moonpath.getPoint( eat );
+	gltf.scene.position.set(moonorbit.x+2,moonorbit.y+2,moonorbit.z);
 	scene.add( gltf.scene);
 	});
 
@@ -383,6 +392,17 @@
 			var pt = earthpath.getPoint( eat );
 			var tangent = earthpath.getTangent( eat ).normalize();
 			earth.position.set(pt.x,pt.y,pt.z);
+			// calculate the axis to rotate around
+			axis.crossVectors( up, tangent ).normalize();
+			// calcluate the angle between the up vector and the tangent
+			var radians = Math.acos( up.dot( tangent ) );	
+			eat = (eat >= 1) ? 0 : eat += 0.0003;
+		}
+		if (moon)
+		{ 	earth.rotation.y+=0.02;
+			var pt = earthpath.getPoint( eat );
+			var tangent = earthpath.getTangent( eat ).normalize();
+			moon.position.set(pt.x+2,pt.y+2,pt.z);
 			// calculate the axis to rotate around
 			axis.crossVectors( up, tangent ).normalize();
 			// calcluate the angle between the up vector and the tangent

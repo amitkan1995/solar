@@ -186,6 +186,12 @@
     var earthgeometry = new THREE.TubeBufferGeometry( earthpath, pathSegments, tubeRadius, radiusSegments, closed );
 	mesh = new THREE.Mesh( earthgeometry, material );
 	scene.add( mesh );
+
+	// Moon
+	moonpath = new Ellipse( 5, 3 );
+    var moongeometry = new THREE.TubeBufferGeometry( earthpath, pathSegments, 0, radiusSegments, closed );
+	mesh = new THREE.Mesh( moongeometry, material );
+	scene.add( mesh );
 	
 	// Mars Orbit
 	marspath = new Ellipse( 35, 28 );
@@ -367,7 +373,7 @@
 			var tangent = venpath.getTangent( vet ).normalize();
 			venus.position.set(pt.x,pt.y,pt.z);
 			// calculate the axis to rotate around
-			//axis.crossVectors( up, tangent ).normalize();
+			axis.crossVectors( up, tangent ).normalize();
 			// calcluate the angle between the up vector and the tangent
 			var radians = Math.acos( up.dot( tangent ) );
 			vet = (vet >= 1) ? 0 : vet += 0.001;
@@ -389,7 +395,7 @@
 			var tangent = marspath.getTangent( mat );
 			mars.position.set(pt.x,pt.y,pt.z);
 			// calculate the axis to rotate around
-			//axis.crossVectors( up, tangent ).normalize();
+			axis.crossVectors( up, tangent ).normalize();
 			// calcluate the angle between the up vector and the tangent
 			var radians = Math.acos( up.dot( tangent ) );
 			mat = (mat >= 1) ? 0 : mat += 0.0001;

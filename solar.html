@@ -404,10 +404,13 @@ function onDocumentMouseDown( event ) {
 	//if (!guic.freezState) return;
 	animateStars();
 	// TO freeze Planet State
+
 	if(!controlConfig.freezState)
 		revolvePlanet();
+	console.log(controlConfig.revolveSpeed);
 	stats.update();
 	}
+
 
 	function revolvePlanet(){
 		if (mercury)
@@ -419,7 +422,7 @@ function onDocumentMouseDown( event ) {
 			axis.crossVectors( up, tangent ).normalize();
 			// calcluate the angle between the up vector and the tangent
 			var radians = Math.acos( up.dot( tangent ) );
-			mt = (mt >= 1) ? 0 : mt += 0.005;
+			mt = (mt >= 1) ? 0 : mt += (0.005/controlConfig.revolveSpeed);
 		}
 		if (venus) 
 		{	
@@ -431,7 +434,7 @@ function onDocumentMouseDown( event ) {
 			axis.crossVectors( up, tangent ).normalize();
 			// calcluate the angle between the up vector and the tangent
 			var radians = Math.acos( up.dot( tangent ) );
-			vet = (vet >= 1) ? 0 : vet += 0.001;
+			vet = (vet >= 1) ? 0 : vet += 0.001/controlConfig.revolveSpeed;
 		}
 		if (earth)
 		{ 	earth.rotation.y+=0.02;
@@ -442,7 +445,7 @@ function onDocumentMouseDown( event ) {
 			axis.crossVectors( up, tangent ).normalize();
 			// calcluate the angle between the up vector and the tangent
 			var radians = Math.acos( up.dot( tangent ) );	
-			eat = (eat >= 1) ? 0 : eat += 0.0003;
+			eat = (eat >= 1) ? 0 : eat += 0.0003/controlConfig.revolveSpeed;
 		}
 		if (moon)
 		{ 	moon.rotation.y+=0.02;
@@ -453,7 +456,7 @@ function onDocumentMouseDown( event ) {
 			axis.crossVectors( up, tangent ).normalize();
 			// calcluate the angle between the up vector and the tangent
 			var radians = Math.acos( up.dot( tangent ) );	
-			eat = (eat >= 1) ? 0 : eat += 0.0003;
+			eat = (eat >= 1) ? 0 : eat += 0.0003/controlConfig.revolveSpeed;
 		}
 		if (mars) 
 		{	//mars.rotation.z+=0.02;
@@ -464,7 +467,7 @@ function onDocumentMouseDown( event ) {
 			axis.crossVectors( up, tangent ).normalize();
 			// calcluate the angle between the up vector and the tangent
 			var radians = Math.acos( up.dot( tangent ) );
-			mat = (mat >= 1) ? 0 : mat += 0.0001;
+			mat = (mat >= 1) ? 0 : mat += 0.0001/controlConfig.revolveSpeed;
 		}
 		if (jupiter) 
 		{	jupiter.rotation.y+=0.004;
@@ -475,7 +478,7 @@ function onDocumentMouseDown( event ) {
 			axis.crossVectors( up, tangent ).normalize();
 			// calcluate the angle between the up vector and the tangent
 			var radians = Math.acos( up.dot( tangent ) );
-			jupt = (jupt >= 1) ? 0 : jupt += 0.00006;
+			jupt = (jupt >= 1) ? 0 : jupt += 0.00006/controlConfig.revolveSpeed;
 		}
 		if (saturn) 
 		{	saturn.rotation.y+=0.009;
@@ -486,7 +489,7 @@ function onDocumentMouseDown( event ) {
 			axis.crossVectors( up, tangent ).normalize();
 			// calcluate the angle between the up vector and the tangent
 			var radians = Math.acos( up.dot( tangent ) );
-			satt = (satt >= 1) ? 0 : satt += 0.00003;
+			satt = (satt >= 1) ? 0 : satt += 0.00003/controlConfig.revolveSpeed;
 		}
 		if (uranus) 
 		{	uranus.rotation.y+=0.0004;
@@ -497,7 +500,7 @@ function onDocumentMouseDown( event ) {
 			axis.crossVectors( up, tangent ).normalize();
 			// calcluate the angle between the up vector and the tangent
 			var radians = Math.acos( up.dot( tangent ) );
-			urat = (urat >= 1) ? 0 : urat += 0.000009;
+			urat = (urat >= 1) ? 0 : urat += 0.000009/controlConfig.revolveSpeed;
 		}
 		if (neptune) 
 		{	neptune.rotation.y+=0.0004;
@@ -508,7 +511,7 @@ function onDocumentMouseDown( event ) {
 			axis.crossVectors( up, tangent ).normalize();
 			// calcluate the angle between the up vector and the tangent
 			var radians = Math.acos( up.dot( tangent ) );
-			nept = (nept >= 1) ? 0 : nept += 0.000009;
+			nept = (nept >= 1) ? 0 : nept += 0.0000009/controlConfig.revolveSpeed;
 		}
 		
 
